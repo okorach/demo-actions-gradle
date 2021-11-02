@@ -7,15 +7,15 @@ env:
 on:
   push:
     branches:
-      - master # or the name of your main branch
+      - master
+      - main
+      - develop
   pull_request:
     types: [opened, synchronize, reopened]
   # schedule:
   #  - cron: '17 0 * * 4'
 jobs:
-
-  #----------------- Gradle scan --------------------
-  scan-gradle:
+  pipeline:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -30,26 +30,29 @@ jobs:
       #  uses: actions/setup-java@v1
       #  with:
       #    java-version: 11
-      - name: Cache SonarQube packages
+      - name: Fetch SonarQube Scanner cache
         uses: actions/cache@v1
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
-      - name: Cache Gradle packages
+      - name: Fetch Gradle cache
         uses: actions/cache@v1
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
-      - name: Build and analyze gradle project
+      - name: Build Gradle project
+        working-directory: ./comp-gradle
+        run: ./gradlew build
+      - name: Analyze Gradle project
         working-directory: ./comp-gradle
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: ./gradlew build sonarqube --info
-      - name: Set tags
+        run: ./gradlew -d sonarqube --info
+      - name: Set SonarQube project tags
         run: |
           # Set project tags on the fly
           curl -X POST -u ${{ secrets.SONAR_TOKEN }}: "${{ secrets.SONAR_HOST_URL }}/api/project_tags/set?project=${{env.projectKey}}&tags=${{env.tags}}"
