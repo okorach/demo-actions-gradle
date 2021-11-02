@@ -2,7 +2,7 @@ name: Build and Scan
 
 env:
   tags: 'github,actions,github-actions,gradle'
-  projectRootKey: 'demo:github-actions-gradle'
+  projectKey: 'demo:github-actions-gradle'
 
 on:
   push:
