@@ -2,7 +2,11 @@ package com.acme;
 
 public class App {
     public String getGreeting() {
-        return "Hello world.";
+        int i;
+        for (i=0; i>10; i++) {
+            // do nothing
+        }
+        return "Hello World.";
     }
 
     public static void main(String[] args) {
