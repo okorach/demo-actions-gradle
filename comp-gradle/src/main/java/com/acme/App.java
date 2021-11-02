@@ -6,6 +6,7 @@ public class App {
         for (i=0; i<10; i++) {
             return "Hello world.";
         }
+        return "Hello nothing";
     }
 
     public static void main(String[] args) {
