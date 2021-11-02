@@ -1,0 +1,11 @@
+.scannerwork/
+build/
+.coverage
+**/__pycache__/
+.sonarqube/
+comp-gradle/.gradle/
+**/*.log
+comp-gradle/.classpath
+comp-gradle/.project
+comp-gradle/bin/
+comp-gradle/.settings/
