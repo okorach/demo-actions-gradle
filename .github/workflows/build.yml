@@ -43,10 +43,10 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
       - name: Build Gradle project
-        working-directory: ./comp-gradle
-        run: ./gradlew build
+        working-directory: .
+        run: ./gradlew clean build
       - name: Analyze Gradle project
-        working-directory: ./comp-gradle
+        working-directory: .
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
